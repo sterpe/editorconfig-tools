@@ -1,15 +1,12 @@
-; http://editorconfig.org
+# This file is for unifying the coding style for different editors and IDEs
+# editorconfig.org
 
 root = true
 
-[{lib,test}/**/*.ts]
-indent_style = tab
-indent_size = 4
+[*]
 end_of_line = lf
 charset = utf-8
-trim_trailing_whitespace = true
 insert_final_newline = true
-
-[*.{json,yml}]
+trim_trailing_whitespace = true
 indent_style = space
 indent_size = 2
