@@ -1,7 +1,29 @@
 {
   "name": "editorconfig-tools",
-  "version": "0.0.0",
   "description": "Tools for verifying/fixing code style based on an EditorConfig file",
+  "version": "0.0.0",
+  "author": "Sean Lang <slang800@gmail.com>",
+  "bin": {
+    "editorconfig-tools": "bin/index.js"
+  },
+  "bugs": {
+    "url": "https://github.com/editorconfig/editorconfig-tools-js/issues"
+  },
+  "dependencies": {
+    "cli-color": "~0.2.2",
+    "detect-indent": "^0.1.4",
+    "editorconfig": "~0.11.3",
+    "fobject": "0.0.0",
+    "gitlike-cli": "~0.0.10",
+    "indx": "^0.1.1"
+  },
+  "devDependencies": {
+    "chai": "~1.7.2",
+    "coffee-script": "^1.7.1",
+    "mocha": "~1.12.0",
+    "sinon": "~1.7.3",
+    "sinon-chai": "~2.4.0"
+  },
   "keywords": [
     "editorconfig",
     "tools",
@@ -10,32 +32,13 @@
     "enforce",
     "infer"
   ],
-  "scripts": {
-    "test": "mocha"
-  },
+  "license": "MIT",
+  "main": "lib",
   "repository": {
     "type": "git",
     "url": "git://github.com/editorconfig/editorconfig-tools-js.git"
   },
-  "bugs": {
-    "url": "https://github.com/editorconfig/editorconfig-tools-js/issues"
-  },
-  "author": "Sean Lang <slang800@gmail.com>",
-  "license": "MIT",
-  "dependencies": {
-    "cli-color": "~0.2.2",
-    "editorconfig": "~0.11.3",
-    "gitlike-cli": "~0.0.10"
-  },
-  "devDependencies": {
-    "chai": "~1.7.2",
-    "mocha": "~1.12.0",
-    "sinon": "~1.7.3",
-    "sinon-chai": "~2.4.0",
-    "coffee-script": "^1.7.1"
-  },
-  "main": "lib",
-  "bin": {
-    "editorconfig-tools": "bin/index.js"
+  "scripts": {
+    "test": "mocha"
   }
 }
