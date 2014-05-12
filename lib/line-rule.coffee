@@ -1,3 +1,5 @@
+W = require 'when'
+
 Rule = require './rule'
 
 class LineRule extends Rule
@@ -12,11 +14,9 @@ class LineRule extends Rule
       # `lines`. Those groups need to be joined with the line before them.
       i = 0
       joinedLines = []
-      console.log lines.length
       while i < lines.length
         joinedLines.push lines[i] + (lines[i + 1] or '')
         i += 2
-      console.log joinedLines
       if joinedLines[-1..][0] is ''
         # split leaves an empty string as the last element in the array if
         # the file ends with a linebreak (as it should). remove that.
@@ -32,10 +32,17 @@ class LineRule extends Rule
     )
 
   check: ->
-    @fileAsLines().then((lines) =>
-      for line in lines
-        if not @checkLine line
-          throw new Error('invalid line')
+    W.promise((resolve, reject, notify) =>
+      resolve(
+        if not @setting?
+          null # the setting isn't defined, so we can't check it
+        else
+          @fileAsLines().then((lines) =>
+            for line, lineNum in lines
+              if not @checkLine line
+                throw new Error("#{@file.path}:#{lineNum}")
+          )
+      )
     )
 
   infer: ->

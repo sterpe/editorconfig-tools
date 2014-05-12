@@ -1,7 +1,9 @@
-editorconfig = require './editorconfig'
 fs = require 'fs'
 path = require 'path'
 File = require 'fobject'
+W = require 'when'
+
+editorconfig = require './editorconfig'
 
 class Rule
   ###*
@@ -27,7 +29,7 @@ class Rule
    * @param {String} filename
   ###
   constructor: (filename) ->
-    @editorconfig = editorconfig.parse(filename)
+    @editorconfig = editorconfig(filename)
     @setting = @editorconfig[@propertyName]
     @file = new File(filename)
 
@@ -43,9 +45,16 @@ class Rule
    * @return {Promise}
   ###
   check: ->
-    @infer().then((detectedSetting) =>
-      if detectedSetting isnt @setting
-        throw new Error('invalid')
+    W.promise((resolve, reject, notify) =>
+      resolve(
+        if not @setting?
+          null # the setting isn't defined, so we can't check it
+        else
+          @infer().then((detectedSetting) =>
+            if detectedSetting isnt @setting
+              throw new Error('invalid')
+          )
+      )
     )
 
   ###*

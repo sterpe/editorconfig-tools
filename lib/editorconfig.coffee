@@ -1,4 +1,4 @@
-editorconfig = require 'editorconfig'
+editorconfig = require('editorconfig').parse
 
 ###*
  * Wrapper for the editorconfig function - converts `indent_style` and
@@ -16,3 +16,6 @@ module.exports = (filepath) ->
     else
       undefined
   )
+  delete properties.indent_style
+  delete properties.indent_size
+  return properties

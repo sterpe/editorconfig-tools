@@ -15,7 +15,8 @@
     "editorconfig": "~0.11.3",
     "fobject": "0.0.0",
     "gitlike-cli": "~0.0.10",
-    "indx": "^0.1.1"
+    "indx": "^0.1.1",
+    "when": "^3.1.0"
   },
   "devDependencies": {
     "chai": "~1.7.2",

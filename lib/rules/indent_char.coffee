@@ -24,13 +24,13 @@ class IndentChar extends LineRule
     Array(totalIndents + 1).join(@setting) + line[match.length..]
 
   ###*
-   * This is actually a copy of the one in ../rule.coffee
+   * This is nearly a copy of the one in ../rule.coffee
    * @todo Check on a per-line basis to find specific lines that don't match the
      indent size.
   ###
   check: ->
     @infer().then((detectedSetting) =>
-      if detectedSetting isnt @setting
+      if detectedSetting? and detectedSetting isnt @setting
         throw new Error('invalid')
     )
 
