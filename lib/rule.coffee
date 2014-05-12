@@ -1,4 +1,4 @@
-editorconfig = require 'editorconfig'
+editorconfig = require './editorconfig'
 fs = require 'fs'
 path = require 'path'
 File = require 'fobject'
