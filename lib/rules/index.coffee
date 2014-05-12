@@ -1,1 +1,3 @@
-module.exports = require('indx')(__dirname)
+rules = require('indx')(__dirname)
+delete rules.charset
+module.exports = rules
