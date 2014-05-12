@@ -27,7 +27,8 @@ class Rule
    * @param {String} filename
   ###
   constructor: (filename) ->
-    @setting = editorconfig.parse(filename)[@propertyName]
+    @editorconfig = editorconfig.parse(filename)
+    @setting = @editorconfig[@propertyName]
     @file = new File(filename)
 
   ###*
