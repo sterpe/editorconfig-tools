@@ -1,4 +1,4 @@
 test/
 .editorconfig
-.gitattributes
 .travis.yml
+src/
