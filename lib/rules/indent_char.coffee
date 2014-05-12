@@ -35,6 +35,6 @@ class IndentChar extends LineRule
     )
 
   infer: ->
-    @file.read().then((data) -> detectIndent(data))
+    @file.read(encoding:'utf8').then((data) -> detectIndent(data))
 
 module.exports = IndentChar

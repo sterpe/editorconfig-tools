@@ -1,6 +1,6 @@
-editorconfig = require("editorconfig")
-fs = require("fs")
-path = require("path")
+editorconfig = require 'editorconfig'
+fs = require 'fs'
+path = require 'path'
 
 rules = require '../rules'
 
@@ -8,7 +8,7 @@ check = (args, options={}, callback = (->)) ->
   done = ->
     unless options.boring
       messages.forEach (message) ->
-        console.log message.filename + ":", message.msg
+        console.log message.filename + ':', message.msg
         return
     callback messages
 
@@ -31,7 +31,7 @@ check = (args, options={}, callback = (->)) ->
       rule = new rules[ruleName]()
       setting = settings[ruleName]
       fs.readFile filename,
-        encoding: "utf8"
+        encoding: 'utf8'
         (err, data) ->
           if err then throw err
           rule.check reporter, setting, data

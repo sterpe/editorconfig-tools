@@ -18,7 +18,7 @@ class Rule
 
   ###*
    * The file being tested.
-  * @type {File}
+   * @type {File}
   ###
   file: undefined
 

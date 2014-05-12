@@ -6,7 +6,7 @@ class LineRule extends Rule
    * @return {Promise} A promise for the lines as an array of strings.
   ###
   fileAsLines: ->
-    @file.read(encoding:'utf8').then((data) =>
+    @file.read(encoding: 'utf8').then((data) =>
       lines = data.split(/(\r\n|\n|\r)/)
       # right now the capturing group from the regex is every other element in
       # `lines`. Those groups need to be joined with the line before them.
@@ -43,7 +43,7 @@ class LineRule extends Rule
       lineSettings = [] # list of all settings found in the file
       for line in lines
         lineSetting = @inferLine line
-        if lineSetting not in lineSettings
+        if lineSetting? and lineSetting not in lineSettings
           # keep the array elements unique
           lineSettings.push lineSetting
       if lineSettings.length is 1
