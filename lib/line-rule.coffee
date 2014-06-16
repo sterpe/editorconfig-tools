@@ -1,6 +1,7 @@
 W = require 'when'
 
 Rule = require './rule'
+EditorConfigError = require './editorconfigerror'
 
 class LineRule extends Rule
   ###*
@@ -32,18 +33,14 @@ class LineRule extends Rule
     )
 
   check: ->
-    W.promise((resolve, reject, notify) =>
-      resolve(
-        if not @setting?
-          null # the setting isn't defined, so we can't check it
-        else
-          @fileAsLines().then((lines) =>
-            for line, lineNum in lines
-              if not @checkLine line
-                throw new Error("#{@file.path}:#{lineNum}")
-          )
+    if not @setting?
+      W.resolve(null) # the setting isn't defined, so we can't check it
+    else
+      @fileAsLines().then((lines) =>
+        for line, lineNum in lines
+          if not @checkLine line
+            throw new EditorConfigError(undefined, @file.path, lineNum)
       )
-    )
 
   infer: ->
     @fileAsLines().then((lines) =>

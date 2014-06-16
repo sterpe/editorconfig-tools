@@ -1,6 +1,8 @@
 LineRule = require '../line-rule'
 detectIndent = require 'detect-indent'
 
+EditorConfigError = require '../editorconfigerror'
+
 class IndentChar extends LineRule
   ###*
    * This actually isn't an official property. It's a combination of the
@@ -31,10 +33,10 @@ class IndentChar extends LineRule
   check: ->
     @infer().then((detectedSetting) =>
       if detectedSetting? and detectedSetting isnt @setting
-        throw new Error('invalid')
+        throw new EditorConfigError(undefined, @file.path)
     )
 
   infer: ->
-    @file.read(encoding:'utf8').then((data) -> detectIndent(data))
+    @file.read(encoding: 'utf8').then((data) -> detectIndent(data))
 
 module.exports = IndentChar

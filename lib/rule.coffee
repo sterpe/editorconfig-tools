@@ -3,6 +3,7 @@ path = require 'path'
 File = require 'fobject'
 W = require 'when'
 
+EditorConfigError = require './editorconfigerror'
 editorconfig = require './editorconfig'
 
 class Rule
@@ -45,17 +46,13 @@ class Rule
    * @return {Promise}
   ###
   check: ->
-    W.promise((resolve, reject, notify) =>
-      resolve(
-        if not @setting?
-          null # the setting isn't defined, so we can't check it
-        else
-          @infer().then((detectedSetting) =>
-            if detectedSetting isnt @setting
-              throw new Error('invalid')
-          )
+    if not @setting?
+      W.resolve(null) # the setting isn't defined, so we can't check it
+    else
+      @infer().then((detectedSetting) =>
+        if detectedSetting isnt @setting
+          throw new EditorConfigError(@propertyName, @file.path)
       )
-    )
 
   ###*
    * Determine the value of the setting based on the contents of the file.
