@@ -27,6 +27,7 @@ class InsertFinalNewline extends Rule
 
   infer: ->
     @file.read(encoding:'utf8').then((data) =>
+      if data is '' then return true # empty files don't need final newlines
       @FINAL_NEWLINE.test(data)
     )
 
