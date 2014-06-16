@@ -38,8 +38,7 @@ class LineRule extends Rule
     else
       @fileAsLines().then((lines) =>
         for line, lineNum in lines
-          if not @checkLine line
-            throw new EditorConfigError(undefined, @file.path, lineNum)
+          @checkLine line, lineNum
       )
 
   infer: ->
@@ -67,12 +66,19 @@ class LineRule extends Rule
 
   ###*
    * Check if the line is valid according to the rule. By default it just uses
-     `inferLine` to check aginst the setting for the rule.
+     `inferLine` to check aginst the setting for the rule. Throw an exception if
+     it isn't valid
    * @param {String} line
-   * @return {Boolean} If the line is valid
+   * @param {Integer} lineNum
   ###
-  checkLine: (line) ->
-    @inferLine(line) is @setting
+  checkLine: (line, lineNum) ->
+    detectedSetting = @inferLine(line)
+    if detectedSetting isnt @setting
+      throw new EditorConfigError(
+        "found setting '#{detectedSetting}', should be '#{@setting}'"
+        @file.path
+        lineNum
+      )
 
   ###*
    * @param {String} line
