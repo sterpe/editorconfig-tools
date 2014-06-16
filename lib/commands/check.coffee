@@ -3,8 +3,10 @@ fs = require 'fs'
 path = require 'path'
 W = require 'when'
 _ = require 'lodash'
+requireTree = require 'require-tree'
 
-Rules = require '../rules'
+Rules = requireTree '../rules'
+delete Rules.charset
 
 exitCode = 0
 
