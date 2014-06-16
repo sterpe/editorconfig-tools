@@ -25,18 +25,12 @@ class IndentChar extends LineRule
     totalIndents = match.length / @setting.length
     Array(totalIndents + 1).join(@setting) + line[match.length..]
 
-  ###*
-   * This is nearly a copy of the one in ../rule.coffee
-   * @todo Check on a per-line basis to find specific lines that don't match the
-     indent size.
-  ###
-  check: ->
-    @infer().then((detectedSetting) =>
-      if detectedSetting? and detectedSetting isnt @setting
-        throw new EditorConfigError(undefined, @file.path)
-    )
-
   infer: ->
-    @file.read(encoding: 'utf8').then((data) -> detectIndent(data))
+    @file.read(encoding: 'utf8').then((data) ->
+      detectedSetting = detectIndent(data)
+      if not detectedSetting?
+        throw new Error("Cannot infer #{@propertyName}")
+      return detectedSetting
+    )
 
 module.exports = IndentChar
