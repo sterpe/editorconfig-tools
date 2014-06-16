@@ -9,6 +9,11 @@ EditorConfigError = require '../editorconfigerror'
 class MaxLineLength extends LineRule
   propertyName: 'max_line_length'
 
+  ###*
+   * Lifted from end_of_line.coffee
+  ###
+  eolRegex: /(?:\r\n|\n|\r)?$/
+
   infer: ->
     deferred = W.defer()
     deferred.resolve(80) # most code-bases use that :P
@@ -24,6 +29,7 @@ class MaxLineLength extends LineRule
       )
 
   inferLine: (line) ->
-    line.length
+    # the line ending doesn't count. subtract it
+    line.length - line.match(@eolRegex)?[0].length
 
 module.exports = MaxLineLength
