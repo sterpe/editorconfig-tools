@@ -50,7 +50,7 @@ class Rule
       W.resolve(null) # the setting isn't defined, so we can't check it
     else
       @infer().then((detectedSetting) =>
-        if detectedSetting isnt @setting
+        if detectedSetting? and detectedSetting isnt @setting
           throw new EditorConfigError(
             "found setting '#{detectedSetting}', should be '#{@setting}'"
             @file.path

@@ -25,12 +25,23 @@ class IndentChar extends LineRule
     totalIndents = match.length / @setting.length
     Array(totalIndents + 1).join(@setting) + line[match.length..]
 
+  ###*
+   * Copy of function in Rule class (because we inherit from LineRule which
+     overrides it)
+  ###
+  check: ->
+    if not @setting?
+      W.resolve(null) # the setting isn't defined, so we can't check it
+    else
+      @infer().then((detectedSetting) =>
+        if detectedSetting? and detectedSetting isnt @setting
+          throw new EditorConfigError(
+            "found setting '#{detectedSetting}', should be '#{@setting}'"
+            @file.path
+          )
+      )
+
   infer: ->
-    @file.read(encoding: 'utf8').then((data) ->
-      detectedSetting = detectIndent(data)
-      if not detectedSetting?
-        throw new Error("Cannot infer #{@propertyName}")
-      return detectedSetting
-    )
+    @file.read(encoding: 'utf8').then((data) -> detectIndent(data))
 
 module.exports = IndentChar
