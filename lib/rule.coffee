@@ -51,7 +51,10 @@ class Rule
     else
       @infer().then((detectedSetting) =>
         if detectedSetting isnt @setting
-          throw new EditorConfigError(@propertyName, @file.path)
+          throw new EditorConfigError(
+            "found setting '#{detectedSetting}', should be '#{@setting}'"
+            @file.path
+          )
       )
 
   ###*
