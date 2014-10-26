@@ -8,7 +8,7 @@ class LineRule extends Rule
    * Get the contents of the file as an array of lines.
    * @return {Promise} A promise for the lines as an array of strings.
   ###
-  fileAsLines: ->
+  fileAsLines: =>
     @file.read(encoding: 'utf8').then((data) =>
       lines = data.split(/(\r\n|\n|\r)/)
       # right now the capturing group from the regex is every other element in
@@ -25,14 +25,14 @@ class LineRule extends Rule
       return joinedLines
     )
 
-  fix: ->
+  fix: =>
     @fileAsLines().then((lines) =>
       newLines = []
       newLines.push(@fixLine line) for line in lines
-      @file.write(newLines.join())
+      @file.write(newLines.join(''))
     )
 
-  check: ->
+  check: =>
     if not @setting?
       W.resolve(null) # the setting isn't defined, so we can't check it
     else
@@ -41,7 +41,7 @@ class LineRule extends Rule
           @checkLine line, lineNum
       )
 
-  infer: ->
+  infer: =>
     @fileAsLines().then((lines) =>
       lineSettings = [] # list of all settings found in the file
       for line in lines

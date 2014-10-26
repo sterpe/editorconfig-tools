@@ -12,7 +12,7 @@ class MaxLineLength extends LineRule
   ###*
    * Lifted from end_of_line.coffee
   ###
-  eolRegex: /(?:\r\n|\n|\r)?$/
+  _eolRegex: /(?:\r\n|\n|\r)?$/
 
   infer: ->
     deferred = W.defer()
@@ -30,6 +30,6 @@ class MaxLineLength extends LineRule
 
   inferLine: (line) ->
     # the line ending doesn't count. subtract it
-    line.length - line.match(@eolRegex)?[0].length
+    line.length - line.match(@_eolRegex)?[0].length
 
 module.exports = MaxLineLength

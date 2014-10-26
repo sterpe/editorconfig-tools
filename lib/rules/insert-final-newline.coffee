@@ -5,12 +5,13 @@ class InsertFinalNewline extends Rule
 
   ###*
    * @type {Regex}
+   * @private
   ###
-  FINAL_NEWLINE: /(?:\r\n|\n|\r)$/
+  _finalNewline: /(?:\r\n|\n|\r)?$/
 
-  fix: ->
+  fix: =>
     @file.read(encoding:'utf8').then((data) =>
-      @file.write(data.replace(@FINAL_NEWLINE, (match) =>
+      @file.write(data.replace(@_finalNewline, (match) =>
         if @setting is false
           ''
         else
@@ -25,10 +26,11 @@ class InsertFinalNewline extends Rule
       ))
     )
 
-  infer: ->
+  infer: =>
     @file.read(encoding:'utf8').then((data) =>
       if data is '' then return true # empty files don't need final newlines
-      @FINAL_NEWLINE.test(data)
+      finalNewline = data.match(@_finalNewline)
+      return (finalNewline? and finalNewline[0] isnt '')
     )
 
 module.exports = InsertFinalNewline

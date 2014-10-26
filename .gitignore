@@ -26,3 +26,5 @@ node_modules
 
 # made by the Makefile when building the CoffeeScript
 src
+
+.DS_Store
