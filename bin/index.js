@@ -6,4 +6,3 @@ try {
 } catch(e){}
 
 var cli = require('../lib/cli');
-cli.parse(process.argv);

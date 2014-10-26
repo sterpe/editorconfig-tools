@@ -10,6 +10,7 @@
     "url": "https://github.com/editorconfig/editorconfig-tools-js/issues"
   },
   "dependencies": {
+    "argparse": "^0.1.15",
     "detect-indent": "^0.1.4",
     "editorconfig": "~0.11.3",
     "fobject": "0.0.1",
