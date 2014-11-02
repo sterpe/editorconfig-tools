@@ -53,9 +53,8 @@ fix.addArgument(
 
 argv = argparser.parseArgs()
 
-
 editorconfig = require 'editorconfig'
-fs = require 'fs'
+fs = require 'graceful-fs'
 path = require 'path'
 W = require 'when'
 _ = require 'lodash'
@@ -135,7 +134,7 @@ else if argv.action is 'infer'
       promises.push(
         property.infer().then(
           (res) ->
-            res: res
+            res: String res
             file: filePath
             rule: property.propertyName
           (err) ->
@@ -158,7 +157,7 @@ else if argv.action is 'infer'
 
       # the rest are given a selector based on what files they hit
       for value in sortedValues[1..]
-        if value[0] is 'null' then continue
+        if value[0] in ['null', 'undefined'] then continue
         files = _.pluck _.where(group, res: value[0]), 'file'
         selector = "[{#{files.join(',')}}]"
         rules[selector] ?= []

@@ -9,7 +9,7 @@ class LineRule extends Rule
    * @return {Promise} A promise for the lines as an array of strings.
   ###
   fileAsLines: =>
-    @file.read(encoding: 'utf8').then((data) =>
+    @file.read(encoding: 'utf8').then((data) ->
       lines = data.split(/(\r\n|\n|\r)/)
       # right now the capturing group from the regex is every other element in
       # `lines`. Those groups need to be joined with the line before them.
@@ -73,7 +73,7 @@ class LineRule extends Rule
   ###
   checkLine: (line, lineNum) ->
     detectedSetting = @inferLine(line)
-    if detectedSetting isnt @setting
+    if detectedSetting? and detectedSetting isnt @setting
       throw new EditorConfigError(
         "found setting '#{detectedSetting}', should be '#{@setting}'"
         @file.path
