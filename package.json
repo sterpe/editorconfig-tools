@@ -1,7 +1,7 @@
 {
   "name": "editorconfig-tools",
   "description": "Tools for verifying/fixing code style based on an EditorConfig file",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": "Sean Lang <slang800@gmail.com>",
   "bin": {
     "editorconfig-tools": "bin/index.js"
