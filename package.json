@@ -7,7 +7,7 @@
     "editorconfig-tools": "bin/index.js"
   },
   "bugs": {
-    "url": "https://github.com/editorconfig/editorconfig-tools-js/issues"
+    "url": "https://github.com/slang800/editorconfig-tools/issues"
   },
   "dependencies": {
     "argparse": "^0.1.15",
@@ -38,7 +38,7 @@
   "main": "lib",
   "repository": {
     "type": "git",
-    "url": "git://github.com/editorconfig/editorconfig-tools-js.git"
+    "url": "git://github.com/slang800/editorconfig-tools.git"
   },
   "scripts": {
     "test": "mocha"
