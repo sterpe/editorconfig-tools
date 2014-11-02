@@ -1,5 +1,5 @@
 # editorconfig-tools
-[![Build Status](http://img.shields.io/travis/slang800/editorconfig-tools.svg?style=flat)](https://travis-ci.org/slang800/editorconfig-tools)
+[![Build Status](http://img.shields.io/travis/slang800/editorconfig-tools.svg?style=flat-square)](https://travis-ci.org/slang800/editorconfig-tools) [![NPM version](http://img.shields.io/npm/v/editorconfig-tools.svg?style=flat-square)](https://www.npmjs.org/package/editorconfig-tools) [![NPM license](http://img.shields.io/npm/l/editorconfig-tools.svg?style=flat-square)](https://www.npmjs.org/package/editorconfig-tools)
 
 This tool-set is for validating or fixing code that doesn't adhere to settings defined in `.editorconfig`. It also is able to infer settings from existing code and generate an `.editorconfig` file that matches all the files that are passed to it. See the [EditorConfig Project](http://editorconfig.org/) for details about the `.editorconfig` file.
 
