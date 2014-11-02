@@ -1,47 +1,61 @@
-# EditorConfig-Tools
-
+# editorconfig-tools
 [![Build Status](http://img.shields.io/travis/slang800/editorconfig-tools.svg?style=flat)](https://travis-ci.org/slang800/editorconfig-tools)
 
-EditorConfig-Tools is for validating or fixing code that doesn't adhere to settings defined in `.editorconfig`. It also is able to infer settings from existing code . See the [EditorConfig Project][http://editorconfig.org/] for details about the `.editorconfig` file.
+This tool-set is for validating or fixing code that doesn't adhere to settings defined in `.editorconfig`. It also is able to infer settings from existing code and generate an `.editorconfig` file that matches all the files that are passed to it. See the [EditorConfig Project][[http://editorconfig.org/](http://editorconfig.org/)] for details about the `.editorconfig` file.
 
+## CLI
+The CLI is (currently) the only way of using editorconfig-tools. The following sections detail the 3 subcommands that editorconfig-tools provides.
 
-## Features
-- Infer `.editorconfig` settings from one or more files.
-- Check (validate) that file(s) adhere to `.editorconfig` settings.
-- Fix formatting errors that disobey `.editorconfig` settings.
+### infer
+Infer `.editorconfig` settings from one or more files and generate an `.editorconfig` file that matches all the files that are passed to it.
 
-## Examples
-Here is an example of the command-line API we want to support:
+Here's an example using the files from this project. It is assumed that you have [globstar](http://www.linuxjournal.com/content/globstar-new-bash-globbing-option) enabled in your shell. While editorconfig-tools itself doesn't require it, these examples do use it to pass whole directories of files to editorconfig-tools.
 
 ```bash
-$ cat .editorconfig
+$ editorconfig-tools infer ./* ./lib/**/* ./test/**/*
 [*]
-indent_style = space
-indent_size = 4
-
-$ eclint check test/lf_*.txt
-tests/lf_invalid_crlf.txt: Incorrect line ending found: crlf
-tests/lf_invalid_crlf.txt: No final newline found
-tests/lf_invalid_cr.txt: Incorrect line ending found: cr
-
-$ eclint infer *
-[*]
-indent_style = space
-indent_size = 4
 end_of_line = lf
-charset = utf-8
+indent_style = space
+indent_size = 2
 insert_final_newline = true
+max_line_length = 80
 trim_trailing_whitespace = true
 
-[Makefile]
-indent_style = tab
-indent_size = tab
+[{./test/fixtures/end-of-line/file}]
+end_of_line = crlf
 
-$ eclint fix *
-Makefile: Converted tabs to spaces
+[{./Makefile,./test/fixtures/indent-char-tab/file}]
+indent_style: tab
 
-$ eclint check *
+[{./test/fixtures/insert-final-newline-false/file}]
+insert_final_newline = false
 ```
 
-## Project Status
-This project is not finished, but the `check` command works pretty well, and the code is written for all editorconfig properties except `charset`. So, feel free to play with it, but don't expect it to work well yet.
+As you can see, a set of rules has been generated that matches all of the files that we passed in. If we were making an `.editorconfig` file for a project that doesn't already have one, we might want to write this out to a file:
+
+```bash
+$ editorconfig-tools infer ./* ./lib/**/* ./test/**/* > .editorconfig
+```
+
+We would still probably want to add `root = true` to the file (if this is saved at the root of the project), but editorconfig-tools has done most of the work required to make an `.editorconfig` file.
+
+### check
+Check (validate) that file(s) adhere to `.editorconfig` settings and return a non-zero exit code if errors are encountered (making it suitable for running as a test). For example, if we added some trailing whitespace to our readme, this would be the result:
+
+```bash
+$ editorconfig-tools check README.md
+README.md failed trim_trailing_whitespace on line 46: found setting 'false', should be 'true'
+```
+
+### fix
+Fix formatting errors that disobey `.editorconfig` settings. This will modify your files without warning, so you should ensure that your project is under version control before running it.
+
+For example, if we write a file with 4-space indentation, and then run the fix command (using the settings of this particular project) we will get back a 2-space indented file:
+
+```bash
+$ echo -e 'line one\n    line two' > example-file
+$ editorconfig-tools fix ./example-file
+$ cat example-file
+line one
+  line two
+```
