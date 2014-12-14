@@ -93,3 +93,27 @@ describe 'indent_style/indent_size rule integration (tabs)', ->
     ).then((res) ->
       res.should.eql('line one\n\tline two\n\t\tline three\n')
     )
+
+describe 'indent_style/indent_size rule integration (null)', ->
+  before ->
+    @file = new File('./test/fixtures/indent-char-null/file')
+    @rule = new IndentChar('./test/fixtures/indent-char-null/file')
+
+  after ->
+    # reset file state
+    @file.write(
+      'line one\n  line two\n    line three\n'
+    )
+
+  it 'should throw error and not change the file', ->
+    @file.write(
+      'line one\n  line two\n    line three\n'
+    ).then(
+      @rule.fix
+    ).catch((e) ->
+      e.should.eql(new Error('cannot fix indent_char (no setting defined)'))
+    ).then( =>
+      @file.read(encoding: 'utf8')
+    ).then((res) ->
+      res.should.eql('line one\n  line two\n    line three\n')
+    )
