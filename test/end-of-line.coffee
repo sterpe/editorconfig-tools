@@ -29,64 +29,59 @@ describe 'end_of_line rule integration tests', ->
     @file = new File('./test/fixtures/end-of-line/file')
     @rule = new EndOfLine('./test/fixtures/end-of-line/file')
 
-  after (done) ->
+  after ->
     # reset file state
     @file.write(
       'line one\r\nline two\r\nline three\r\n'
-    ).done(done)
+    )
 
-  it 'should detect lf line endings', (done) ->
+  it 'should detect lf line endings', ->
     @file.write(
       'line one\nline two\nline three\n'
     ).then(
       @rule.infer
-    ).done((res) ->
+    ).then((res) ->
       res.should.eql('lf')
-      done()
     )
 
-  it 'should detect crlf line endings', (done) ->
+  it 'should detect crlf line endings', ->
     @file.write(
       'line one\r\nline two\r\nline three\r\n'
     ).then(
       @rule.infer
-    ).done((res) ->
+    ).then((res) ->
       res.should.eql('crlf')
-      done()
     )
 
-  it 'should fix lf line endings', (done) ->
+  it 'should fix lf line endings', ->
     @file.write(
       'line one\nline two\nline three\n'
     ).then(
       @rule.fix
     ).then( =>
       @file.read(encoding: 'utf8')
-    ).done((res) ->
+    ).then((res) ->
       res.should.eql('line one\r\nline two\r\nline three\r\n')
-      done()
     )
 
-  it 'should fix mixed line endings', (done) ->
+  it 'should fix mixed line endings', ->
     @file.write(
       'line one\nline two\r\nline three\r'
     ).then(
       @rule.fix
     ).then( =>
       @file.read(encoding: 'utf8')
-    ).done((res) ->
+    ).then((res) ->
       res.should.eql('line one\r\nline two\r\nline three\r\n')
-      done()
     )
 
-  it 'should fix line endings without adding a trailing line', (done) ->
+  it 'should fix line endings without adding a trailing line', ->
     @file.write(
       'line one\nline two\nline three'
     ).then(
       @rule.fix
     ).then( =>
       @file.read(encoding: 'utf8')
-    ).done((res) ->
+    ).then((res) ->
       res.should.eql('line one\r\nline two\r\nline three')
-      done()
     )

@@ -28,69 +28,66 @@ describe 'trim_trailing_whitespace rule unit', ->
     @rule.fixLine('').should.eql('')
 
 describe 'trim_trailing_whitespace rule integration (true)', ->
-  before (done) ->
+  before ->
+    @rule = new InsertFinalNewline(
+      './test/fixtures/trim-trailing-whitespace-true/file'
+    )
     @file = new File('./test/fixtures/trim-trailing-whitespace-true/file')
     @file.write(
       'line\n'
-    ).done(done)
-    @rule = new InsertFinalNewline('./test/fixtures/trim-trailing-whitespace-true/file')
+    )
 
-  after (done) ->
+  after ->
     # reset file state
     @file.write(
       'line\nline\n'
-    ).done(done)
+    )
 
-  it 'should detect trailing whitespace', (done) ->
+  it 'should detect trailing whitespace', ->
     @file.write(
       'line  \nline\t\n'
     ).then(
       @rule.infer
-    ).done((res) ->
+    ).then((res) ->
       res.should.eql(false)
-      done()
     )
 
-  it 'should detect mixed trailing whitespace', (done) ->
+  it 'should detect mixed trailing whitespace', ->
     @file.write(
       'line  \nline\n'
     ).then(
       @rule.infer
-    ).done((res) ->
+    ).then((res) ->
       res.should.eql(false)
-      done()
     )
 
-  it 'should detect lack of trailing whitespace', (done) ->
+  it 'should detect lack of trailing whitespace', ->
     @file.write(
       'line\nline'
     ).then(
       @rule.infer
-    ).done((res) ->
+    ).then((res) ->
       res.should.eql(true)
-      done()
     )
 
-  it 'should fix trailing whitespace', (done) ->
+  it 'should fix trailing whitespace', ->
     @file.write(
       'line one  \nline two\n  '
     ).then(
       @rule.fix
     ).then( =>
       @file.read(encoding: 'utf8')
-    ).done((res) ->
+    ).then((res) ->
       res.should.eql('line one\nline two\n')
-      done()
     )
 
-  it 'should fix trailing whitespace when there is none', (done) ->
+  it 'should fix trailing whitespace when there is none', ->
     @file.write(
       'line one\nline two\n'
     ).then(
       @rule.fix
     ).then( =>
       @file.read(encoding: 'utf8')
-    ).done((res) ->
+    ).then((res) ->
       res.should.eql('line one\nline two\n')
-      done()
     )
