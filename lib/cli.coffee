@@ -124,6 +124,15 @@ else if argv.action is 'fix'
             error: err
         )
       )
+
+  W.all(promises).done (res) ->
+    verbose = true
+    for result in res
+      if result.error?
+        console.log "#{result.file} #{result.error.message}"
+      else if verbose
+        console.log "#{result.file} fixed"
+
 else if argv.action is 'infer'
   promises = []
   Object.keys(Rules).forEach (ruleName) ->

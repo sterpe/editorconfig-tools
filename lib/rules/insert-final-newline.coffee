@@ -10,7 +10,9 @@ class InsertFinalNewline extends Rule
   _finalNewline: /(?:\r\n|\n|\r)?$/
 
   fix: =>
-    @file.read(encoding:'utf8').then((data) =>
+    super().then( =>
+      @file.read(encoding:'utf8')
+    ).then((data) =>
       @file.write(data.replace(@_finalNewline, (match) =>
         if @setting is false
           ''

@@ -37,7 +37,14 @@ class Rule
    * Fix the file so it matches the given editorconfig setting
    * @return {Promise}
   ###
-  fix: ->
+  fix: =>
+    if not @setting?
+      W.reject(new EditorConfigError(
+        "cannot fix #{@propertyName} (no setting defined)"
+      ))
+    else
+      W()
+
 
   ###*
    * Ensure that the file obeys the editorconfig setting. Throw an error if it
