@@ -1,6 +1,7 @@
 require 'should'
 File = require 'fobject'
 
+EditorConfigError = require '../lib/editorconfigerror'
 IndentChar = require '../lib/rules/indent-char'
 
 describe 'indent_style/indent_size rule unit', ->
@@ -111,7 +112,9 @@ describe 'indent_style/indent_size rule integration (null)', ->
     ).then(
       @rule.fix
     ).catch((e) ->
-      e.should.eql(new Error('cannot fix indent_char (no setting defined)'))
+      e.should.eql(
+        new EditorConfigError('cannot fix indent_char (no setting defined)')
+      )
     ).then( =>
       @file.read(encoding: 'utf8')
     ).then((res) ->

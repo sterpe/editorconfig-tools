@@ -26,7 +26,7 @@ class LineRule extends Rule
     )
 
   fix: =>
-    @fileAsLines().then((lines) =>
+    super().then(@fileAsLines).then((lines) =>
       newLines = []
       newLines.push(@fixLine line) for line in lines
       @file.write(newLines.join(''))
