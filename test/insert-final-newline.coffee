@@ -60,13 +60,13 @@ describe 'insert_final_newline rule integration (true)', ->
 describe 'insert_final_newline rule integration (false)', ->
   before ->
     @file = new File('./test/fixtures/insert-final-newline-false/file')
-    @rule = new InsertFinalNewline('./test/fixtures/insert-final-newline-false/file')
+    @rule = new InsertFinalNewline(
+      './test/fixtures/insert-final-newline-false/file'
+    )
 
   after ->
     # reset file state
-    @file.write(
-      'line'
-    )
+    @file.write('line')
 
   it 'should detect missing line ending', ->
     @file.write(

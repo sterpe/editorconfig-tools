@@ -12,8 +12,8 @@ class TrimTrailingWhitespace extends LineRule
   fixLine: (line) =>
     if @setting
       match = line.match(@_trailingWhitespace)
-      # join the line (without trailing space), with the captured line ending (if
-      # there is one)
+      # join the line (without trailing space), with the captured line ending
+      # (if there is one)
       if match?
         return line[...-(match[0].length)] + match[2]
     return line
