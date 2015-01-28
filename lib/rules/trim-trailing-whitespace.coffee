@@ -8,14 +8,14 @@ class TrimTrailingWhitespace extends LineRule
      ending (which might not be there if `insert_final_newline` is false).
    * @type {Regex}
   ###
-  _trailingWhitespace: /([^\S\r\n]+)(\r\n|\n|\r|)$/
+  _trailingWhitespace: /[^\S\r\n]+(\r\n|\n|\r|)$/
   fixLine: (line) =>
     if @setting
       match = line.match(@_trailingWhitespace)
       # join the line (without trailing space), with the captured line ending
       # (if there is one)
       if match?
-        return line[...-(match[0].length)] + match[2]
+        return line[...-(match[0].length)] + match[1]
     return line
 
   infer: =>
