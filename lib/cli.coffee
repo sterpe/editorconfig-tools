@@ -106,28 +106,34 @@ if argv.action is 'check'
     process.exit(exitCode)
   )
 else if argv.action is 'fix'
-  promises = []
-  Object.keys(Rules).forEach (ruleName) ->
+  results = []
+  promise = W.resolve()
+  for ruleName in Object.keys(Rules)
     Rule = Rules[ruleName]
-    argv.files.forEach (filePath) ->
-      if fs.lstatSync(filePath).isDirectory() then return
-      property = new Rule(filePath)
-      promises.push(
-        property.fix().then(
+    for filePath in argv.files
+      if fs.lstatSync(filePath).isDirectory() then continue
+      do (Rule, filePath) ->
+        property = new Rule(filePath)
+        promise = promise.then( ->
+          property.fix()
+        ).then(
           (res) ->
-            res: res
-            file: filePath
-            rule: property.propertyName
+            results.push(
+              res: res
+              file: filePath
+              rule: property.propertyName
+            )
           (err) ->
-            file: filePath
-            rule: property.propertyName
-            error: err
+            results.push(
+              file: filePath
+              rule: property.propertyName
+              error: err
+            )
         )
-      )
 
-  W.all(promises).done (res) ->
+  promise.done ->
     verbose = true
-    for result in res
+    for result in results
       if result.error?
         console.log "#{result.file} #{result.error.message}"
       else if verbose
