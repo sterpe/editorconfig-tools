@@ -5,7 +5,9 @@ EndOfLine = require '../lib/rules/end-of-line'
 
 describe 'end_of_line rule unit', ->
   before ->
-    @rule = new EndOfLine('fakefile')
+    (new EndOfLine('fakefile')).then((rule) =>
+      @rule = rule
+    )
 
   it 'should have the correct propertyName', ->
     @rule.propertyName.should.eql('end_of_line')
@@ -27,7 +29,9 @@ describe 'end_of_line rule unit', ->
 describe 'end_of_line rule integration tests', ->
   before ->
     @file = new File('./test/fixtures/end-of-line/file')
-    @rule = new EndOfLine('./test/fixtures/end-of-line/file')
+    (new EndOfLine('./test/fixtures/end-of-line/file')).then((rule) =>
+      @rule = rule
+    )
 
   after ->
     # reset file state

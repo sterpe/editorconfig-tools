@@ -6,18 +6,22 @@ InsertFinalNewline = require '../lib/rules/insert-final-newline'
 describe 'insert_final_newline rule unit', ->
   before ->
     @rule = new InsertFinalNewline('fakefile')
+    (new InsertFinalNewline('fakefile')).then((rule) =>
+      @rule = rule
+    )
 
   it 'should have the correct propertyName', ->
     @rule.propertyName.should.eql('insert_final_newline')
 
 describe 'insert_final_newline rule integration (true)', ->
   before ->
-    @rule = new InsertFinalNewline(
-      './test/fixtures/insert-final-newline-true/file'
-    )
     @file = new File('./test/fixtures/insert-final-newline-true/file')
     @file.write(
       'line\n'
+    ).then( ->
+      new InsertFinalNewline('./test/fixtures/insert-final-newline-true/file')
+    ).then((rule) =>
+      @rule = rule
     )
 
   after ->
@@ -60,8 +64,10 @@ describe 'insert_final_newline rule integration (true)', ->
 describe 'insert_final_newline rule integration (false)', ->
   before ->
     @file = new File('./test/fixtures/insert-final-newline-false/file')
-    @rule = new InsertFinalNewline(
-      './test/fixtures/insert-final-newline-false/file'
+    (
+      new InsertFinalNewline('./test/fixtures/insert-final-newline-false/file')
+    ).then((rule) =>
+      @rule = rule
     )
 
   after ->

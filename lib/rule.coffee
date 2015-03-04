@@ -29,9 +29,11 @@ class Rule
    * @param {String} filename
   ###
   constructor: (filename) ->
-    @editorconfig = editorconfig(filename)
-    @setting = @editorconfig[@propertyName]
-    @file = new File(filename)
+    return editorconfig(filename).then((@editorconfig) =>
+      @setting = @editorconfig[@propertyName]
+      @file = new File(filename)
+      return this
+    )
 
   ###*
    * Fix the file so it matches the given editorconfig setting
@@ -51,7 +53,7 @@ class Rule
      doesn't.
    * @return {Promise}
   ###
-  check: ->
+  check: =>
     if not @setting?
       W.resolve(null) # the setting isn't defined, so we can't check it
     else

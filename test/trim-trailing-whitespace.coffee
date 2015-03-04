@@ -5,7 +5,9 @@ InsertFinalNewline = require '../lib/rules/trim-trailing-whitespace'
 
 describe 'trim_trailing_whitespace rule unit', ->
   before ->
-    @rule = new InsertFinalNewline('fakefile')
+    (new InsertFinalNewline('fakefile')).then((rule) =>
+      @rule = rule
+    )
 
   it 'should have the correct propertyName', ->
     @rule.propertyName.should.eql('trim_trailing_whitespace')
@@ -29,12 +31,13 @@ describe 'trim_trailing_whitespace rule unit', ->
 
 describe 'trim_trailing_whitespace rule integration (true)', ->
   before ->
-    @rule = new InsertFinalNewline(
-      './test/fixtures/trim-trailing-whitespace-true/file'
-    )
     @file = new File('./test/fixtures/trim-trailing-whitespace-true/file')
     @file.write(
       'line\n'
+    ).then( ->
+      new InsertFinalNewline('./test/fixtures/trim-trailing-whitespace-true/file')
+    ).then((rule) =>
+      @rule = rule
     )
 
   after ->

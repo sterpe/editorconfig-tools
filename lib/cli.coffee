@@ -69,17 +69,19 @@ if argv.action is 'check'
     Rule = Rules[ruleName]
     argv.files.forEach (filePath) ->
       if fs.lstatSync(filePath).isDirectory() then return
-      property = new Rule(filePath)
+      property = undefined
       promises.push(
-        property.check().then(
-          (res) ->
-            res: res
-            file: filePath
-            rule: property.propertyName
-          (err) ->
-            file: filePath
-            rule: property.propertyName
-            error: err
+        (new Rule(filePath)).then((returnedProperty) ->
+          property = returnedProperty
+          property.check()
+        ).then((res) ->
+          res: res
+          file: filePath
+          rule: property.propertyName
+        ).catch((err) ->
+          file: filePath
+          rule: property.propertyName
+          error: err
         )
       )
 
@@ -113,22 +115,24 @@ else if argv.action is 'fix'
     for filePath in argv.files
       if fs.lstatSync(filePath).isDirectory() then continue
       do (Rule, filePath) ->
-        property = new Rule(filePath)
+        property = undefined
         promise = promise.then( ->
+          new Rule(filePath)
+        ).then((returnedProperty) ->
+          property = returnedProperty
           property.fix()
-        ).then(
-          (res) ->
-            results.push(
-              res: res
-              file: filePath
-              rule: property.propertyName
-            )
-          (err) ->
-            results.push(
-              file: filePath
-              rule: property.propertyName
-              error: err
-            )
+        ).then((res) ->
+          results.push(
+            res: res
+            file: filePath
+            rule: property.propertyName
+          )
+        ).catch((err) ->
+          results.push(
+            file: filePath
+            rule: property.propertyName
+            error: err
+          )
         )
 
   promise.done ->
@@ -145,17 +149,19 @@ else if argv.action is 'infer'
     Rule = Rules[ruleName]
     argv.files.forEach (filePath) ->
       if fs.lstatSync(filePath).isDirectory() then return
-      property = new Rule(filePath)
+      property = undefined
       promises.push(
-        property.infer().then(
-          (res) ->
-            res: String res
-            file: filePath
-            rule: property.propertyName
-          (err) ->
-            file: filePath
-            rule: property.propertyName
-            error: err
+        (new Rule(filePath)).then((returnedProperty) ->
+          property = returnedProperty
+          property.infer()
+        ).then((res) ->
+          res: String res
+          file: filePath
+          rule: property.propertyName
+        ).catch((err) ->
+          file: filePath
+          rule: property.propertyName
+          error: err
         )
       )
 

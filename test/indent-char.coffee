@@ -6,7 +6,10 @@ IndentChar = require '../lib/rules/indent-char'
 
 describe 'indent_style/indent_size rule unit', ->
   before ->
-    @rule = new IndentChar('fakefile')
+    (new IndentChar('fakefile')).then((rule) =>
+      @rule = rule
+    )
+
 
   it 'should have the correct propertyName', ->
     @rule.propertyName.should.eql('indent_char')
@@ -14,7 +17,9 @@ describe 'indent_style/indent_size rule unit', ->
 describe 'indent_style/indent_size rule integration (spaces)', ->
   before ->
     @file = new File('./test/fixtures/indent-char-space/file')
-    @rule = new IndentChar('./test/fixtures/indent-char-space/file')
+    (new IndentChar('./test/fixtures/indent-char-space/file')).then((rule) =>
+      @rule = rule
+    )
 
   after ->
     # reset file state
@@ -56,7 +61,9 @@ describe 'indent_style/indent_size rule integration (spaces)', ->
 describe 'indent_style/indent_size rule integration (tabs)', ->
   before ->
     @file = new File('./test/fixtures/indent-char-tab/file')
-    @rule = new IndentChar('./test/fixtures/indent-char-tab/file')
+    (new IndentChar('./test/fixtures/indent-char-tab/file')).then((rule) =>
+      @rule = rule
+    )
 
   after ->
     # reset file state
@@ -98,7 +105,9 @@ describe 'indent_style/indent_size rule integration (tabs)', ->
 describe 'indent_style/indent_size rule integration (null)', ->
   before ->
     @file = new File('./test/fixtures/indent-char-null/file')
-    @rule = new IndentChar('./test/fixtures/indent-char-null/file')
+    (new IndentChar('./test/fixtures/indent-char-null/file')).then((rule) =>
+      @rule = rule
+    )
 
   after ->
     # reset file state

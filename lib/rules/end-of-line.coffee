@@ -5,7 +5,7 @@ class EndOfLine extends LineRule
 
   _eolRegex: /(?:\r\n|\n|\r)$/
 
-  fixLine: (line) ->
+  fixLine: (line) =>
     line.replace(@_eolRegex, (match) =>
       switch @setting
         when 'crlf'
@@ -22,7 +22,7 @@ class EndOfLine extends LineRule
    * Infer the line ending, returning `undefined` if there is no line ending
    * @param {String} line
   ###
-  inferLine: (line) ->
+  inferLine: (line) =>
     switch line.match(@_eolRegex)?[0]
       when '\r\n'
         'crlf'

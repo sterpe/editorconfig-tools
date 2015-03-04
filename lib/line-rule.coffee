@@ -61,7 +61,7 @@ class LineRule extends Rule
    * @param {String} line
    * @return {String} The fixed line.
   ###
-  fixLine: (line) ->
+  fixLine: (line) =>
     throw new Error("Unable to fix #{@propertyName}")
 
   ###*
@@ -71,7 +71,7 @@ class LineRule extends Rule
    * @param {String} line
    * @param {Integer} lineNum
   ###
-  checkLine: (line, lineNum) ->
+  checkLine: (line, lineNum) =>
     detectedSetting = @inferLine(line)
     if detectedSetting? and detectedSetting isnt @setting
       throw new EditorConfigError(
@@ -84,7 +84,7 @@ class LineRule extends Rule
    * @param {String} line
    * @return {String|Integer|Boolean} Setting value for the line.
   ###
-  inferLine: (line) ->
+  inferLine: (line) =>
     throw new Error("Cannot infer #{@propertyName}")
 
 module.exports = LineRule

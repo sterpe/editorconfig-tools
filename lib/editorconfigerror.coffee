@@ -5,7 +5,7 @@
 class EditorConfigError extends Error
   constructor: (@message, @fileName, @lineNumber, @context) ->
 
-  toString: ->
+  toString: =>
     text = @fileName
     if @lineNumber?
       text += ":#{@lineNumber}"

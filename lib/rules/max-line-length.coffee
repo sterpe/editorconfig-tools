@@ -19,7 +19,7 @@ class MaxLineLength extends LineRule
     deferred.resolve(80) # most code-bases use that :P
     return deferred.promise
 
-  checkLine: (line, lineNum) ->
+  checkLine: (line, lineNum) =>
     lineLength = @inferLine(line)
     if lineLength > @setting
       throw new EditorConfigError(
@@ -28,7 +28,7 @@ class MaxLineLength extends LineRule
         lineNum
       )
 
-  inferLine: (line) ->
+  inferLine: (line) =>
     # the line ending doesn't count. subtract it
     line.length - line.match(@_eolRegex)?[0].length
 
