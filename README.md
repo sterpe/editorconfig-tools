@@ -59,3 +59,7 @@ $ cat example-file
 line one
   line two
 ```
+
+## Similar Tools
+- [eclint](https://github.com/jedmao/eclint)
+- [treyhunner/editorconfig-tools](https://github.com/treyhunner/editorconfig-tools)
