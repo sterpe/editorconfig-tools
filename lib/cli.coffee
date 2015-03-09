@@ -155,7 +155,7 @@ else if argv.action is 'infer'
           property = returnedProperty
           property.infer()
         ).then((res) ->
-          res: String res
+          res: res
           file: filePath
           rule: property.propertyName
         ).catch((err) ->
@@ -167,7 +167,35 @@ else if argv.action is 'infer'
 
   W.all(promises).done((res) ->
     rules = {}
-    groups = _.groupBy(res, 'rule')
+    _.remove(res, (e) -> not e.res?) # remove null results
+    filteredResults = []
+    for result in res
+      if result.rule is 'indent_char'
+        indentStyle = (
+          if result.res is '\t'
+            'tab'
+          else
+            'space'
+        )
+        filteredResults.push(
+          rule: 'indent_style'
+          res: indentStyle
+          file: result.file
+        )
+        if indentStyle is 'space'
+          filteredResults.push(
+            rule: 'indent_size'
+            res: String result.res.length
+            file: result.file
+          )
+      else
+        # convert result.res to a string because getting distributionOfValues
+        # involves a step where it is used as an object key, so it becomes a
+        # string and needs to be matched to.
+        result.res = String result.res
+        filteredResults.push(result)
+
+    groups = _.groupBy(filteredResults, 'rule')
     for property, group of groups
       distributionOfValues = _.pairs _.countBy _.pluck(group, 'res'), (x) -> x
       sortedValues = _.sortBy distributionOfValues, (x) -> -x[1]
@@ -178,24 +206,15 @@ else if argv.action is 'infer'
 
       # the rest are given a selector based on what files they hit
       for value in sortedValues[1..]
-        if value[0] in ['null', 'undefined'] then continue
         files = _.pluck _.where(group, res: value[0]), 'file'
         selector = "[{#{files.join(',')}}]"
         rules[selector] ?= []
         rules[selector].push([property, value[0]])
 
-
     for selector, ruleGroup of rules
       console.log selector
       for rule in ruleGroup
-        if rule[0] is 'indent_char'
-          if rule[1] is '\t'
-            console.log 'indent_style: tab'
-          else
-            console.log 'indent_style = space'
-            console.log "indent_size = #{rule[1].length}"
-        else
-          console.log "#{rule[0]} = #{rule[1]}"
+        console.log "#{rule[0]} = #{rule[1]}"
 
       console.log ''
   )
