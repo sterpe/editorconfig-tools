@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "argparse": "^0.1.15",
-    "detect-indent": "^0.1.4",
+    "detect-indent": "^3.0.1",
     "editorconfig": "^0.12.1",
     "fobject": "0.0.3",
     "graceful-fs": "^3.0.4",

@@ -29,6 +29,11 @@ class IndentChar extends LineRule
   check: Rule::check
 
   infer: =>
-    @file.read(encoding: 'utf8').then(detectIndent)
+    @file.read(encoding: 'utf8').then(detectIndent).then((res) ->
+      if res.type is null
+        null
+      else
+        res.indent
+    )
 
 module.exports = IndentChar
