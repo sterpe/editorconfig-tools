@@ -10,7 +10,6 @@ describe 'indent_style/indent_size rule unit', ->
       @rule = rule
     )
 
-
   it 'should have the correct propertyName', ->
     @rule.propertyName.should.eql('indent_char')
 

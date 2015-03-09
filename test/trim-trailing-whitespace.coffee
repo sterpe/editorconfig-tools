@@ -35,7 +35,9 @@ describe 'trim_trailing_whitespace rule integration (true)', ->
     @file.write(
       'line\n'
     ).then( ->
-      new InsertFinalNewline('./test/fixtures/trim-trailing-whitespace-true/file')
+      new InsertFinalNewline(
+        './test/fixtures/trim-trailing-whitespace-true/file'
+      )
     ).then((rule) =>
       @rule = rule
     )
