@@ -39,6 +39,17 @@ describe 'insert_final_newline rule integration (true)', ->
       res.should.eql(true)
     )
 
+  it 'shouldn\'t add a newline to empty files', ->
+    @file.write(
+      ''
+    ).then(
+      @rule.fix
+    ).then( =>
+      @file.read(encoding: 'utf8')
+    ).then((res) ->
+      res.should.eql('')
+    )
+
   it 'should fix missing line ending', ->
     @file.write(
       'line'
