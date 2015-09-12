@@ -1,12 +1,11 @@
 LineRule = require '../line-rule'
+{eolRegex} = require '../util'
 
 class EndOfLine extends LineRule
   propertyName: 'end_of_line'
 
-  _eolRegex: /(?:\r\n|\n|\r)$/
-
   fixLine: (line) =>
-    line.replace(@_eolRegex, (match) =>
+    line.replace(eolRegex, (match) =>
       switch @setting
         when 'crlf'
           '\r\n'
@@ -22,8 +21,8 @@ class EndOfLine extends LineRule
    * Infer the line ending, returning `undefined` if there is no line ending
    * @param {String} line
   ###
-  inferLine: (line) =>
-    switch line.match(@_eolRegex)?[0]
+  inferLine: (line) ->
+    switch line.match(eolRegex)?[0]
       when '\r\n'
         'crlf'
       when '\n'
