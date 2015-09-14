@@ -6,22 +6,22 @@ editorconfig = require('editorconfig').parse
 ###
 module.exports = (filepath) ->
   editorconfig(filepath).then((properties) ->
-    if not properties.indent_size?
+    if not properties['indent_size']?
       # fix until https://github.com/editorconfig/editorconfig-core-js/pull/14
       # is released
-      properties.indent_size = String(properties.indent_size)
+      properties['indent_size'] = String(properties['indent_size'])
 
-    properties.indent_char = (
-      if 'tab' in [properties.indent_size, properties.indent_style]
+    properties['indent_char'] = (
+      if 'tab' in [properties['indent_size'], properties['indent_style']]
         '\t'
-      else if not isNaN(properties.indent_size)
-        Array(properties.indent_size + 1).join(' ')
-      else if properties.indent_style is 'space'
+      else if not isNaN(properties['indent_size'])
+        Array(properties['indent_size'] + 1).join(' ')
+      else if properties['indent_style'] is 'space'
         '  ' # 2 spaces is pretty common
       else
         undefined
     )
-    delete properties.indent_style
-    delete properties.indent_size
+    delete properties['indent_style']
+    delete properties['indent_size']
     return properties
   )
