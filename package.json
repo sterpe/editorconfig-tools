@@ -25,14 +25,14 @@
     "should": "^4.1.0"
   },
   "keywords": [
-    "editorconfig",
-    "tools",
-    "validate",
-    "fix",
-    "enforce",
     "code-quality",
+    "editorconfig",
+    "enforce",
+    "fix",
     "formatting",
-    "infer"
+    "infer",
+    "tools",
+    "validate"
   ],
   "license": "GPL-3.0",
   "main": "lib",
