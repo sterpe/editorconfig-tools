@@ -34,7 +34,7 @@
     "formatting",
     "infer"
   ],
-  "license": "MIT",
+  "license": "GPL-3.0",
   "main": "lib",
   "repository": {
     "type": "git",
