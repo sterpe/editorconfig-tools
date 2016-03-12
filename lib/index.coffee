@@ -1,8 +1,6 @@
 _ = require 'lodash'
 W = require 'when'
-editorconfig = require 'editorconfig'
 fs = require 'graceful-fs'
-path = require 'path'
 
 requireTree = require 'require-tree'
 Rules = requireTree './rules'

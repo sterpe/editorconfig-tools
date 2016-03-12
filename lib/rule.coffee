@@ -1,4 +1,3 @@
-path = require 'path'
 File = require 'fobject'
 W = require 'when'
 
