@@ -10,7 +10,7 @@
     "url": "https://github.com/slang800/editorconfig-tools/issues"
   },
   "dependencies": {
-    "argparse": "^0.1.15",
+    "argparse": "^1.0.6",
     "detect-indent": "^3.0.1",
     "editorconfig": "^0.13.2",
     "fobject": "0.0.3",
