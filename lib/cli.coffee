@@ -1,6 +1,6 @@
-path = require 'path'
-packageInfo = require(path.join(__dirname, '../package.json'))
-ArgumentParser = require('argparse').ArgumentParser
+{ArgumentParser} = require 'argparse'
+
+packageInfo = require '../package'
 {check, fix, infer} = require './index'
 
 argparser = new ArgumentParser(
