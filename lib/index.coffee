@@ -31,11 +31,11 @@ check = (files) ->
       )
 
   W.all(promises).done((res) ->
-    files = _.uniq _.pluck(res, 'file')
+    files = _.uniq _.map(res, 'file')
     for file in files
-      matches = _.where res, file: file
+      matches = _.filter res, file: file
       verbose = true
-      if verbose or _.compact(_.pluck(matches, 'error')).length > 0
+      if verbose or _.compact(_.map(matches, 'error')).length > 0
         for match in matches
           if match.error?
             exitCode = 1
@@ -143,7 +143,7 @@ infer = (files) ->
 
     groups = _.groupBy(filteredResults, 'rule')
     for property, group of groups
-      distributionOfValues = _.pairs _.countBy _.pluck(group, 'res'), (x) -> x
+      distributionOfValues = _.toPairs _.countBy _.map(group, 'res'), (x) -> x
       sortedValues = _.sortBy distributionOfValues, (x) -> -x[1]
 
       # most common value gets to be global
@@ -152,7 +152,7 @@ infer = (files) ->
 
       # the rest are given a selector based on what files they hit
       for value in sortedValues[1..]
-        files = _.pluck _.where(group, res: value[0]), 'file'
+        files = _.map _.filter(group, res: value[0]), 'file'
         selector = "[{#{files.join(',')}}]"
         rules[selector] ?= []
         rules[selector].push([property, value[0]])
