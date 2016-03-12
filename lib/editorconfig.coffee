@@ -6,11 +6,6 @@ editorconfig = require('editorconfig').parse
 ###
 module.exports = (filepath) ->
   editorconfig(filepath).then((properties) ->
-    if not properties['indent_size']?
-      # fix until https://github.com/editorconfig/editorconfig-core-js/pull/14
-      # is released
-      properties['indent_size'] = String(properties['indent_size'])
-
     properties['indent_char'] = (
       if 'tab' in [properties['indent_size'], properties['indent_style']]
         '\t'
