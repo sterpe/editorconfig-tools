@@ -47,7 +47,6 @@ class Rule
     else
       W()
 
-
   ###*
    * Ensure that the file obeys the editorconfig setting. Throw an error if it
      doesn't.
