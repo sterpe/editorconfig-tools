@@ -11,13 +11,13 @@
   },
   "dependencies": {
     "argparse": "^1.0.6",
+    "bluebird": "^3.3.4",
     "detect-indent": "^3.0.1",
     "editorconfig": "^0.13.2",
     "fobject": "0.0.3",
     "graceful-fs": "^3.0.4",
     "lodash": "^4.6.1",
-    "require-tree": "^0.3.3",
-    "when": "^3.1.0"
+    "require-tree": "^0.3.3"
   },
   "devDependencies": {
     "coffee-script": "^1.10.0",

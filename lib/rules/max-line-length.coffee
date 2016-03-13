@@ -1,5 +1,5 @@
+BPromise = require 'bluebird'
 LineRule = require '../line-rule'
-W = require 'when'
 
 EditorConfigError = require '../editorconfigerror'
 
@@ -15,9 +15,7 @@ class MaxLineLength extends LineRule
   _eolRegex: /(?:\r\n|\n|\r)?$/
 
   infer: ->
-    deferred = W.defer()
-    deferred.resolve(80) # most code-bases use that :P
-    return deferred.promise
+    BPromise.resolve(80) # most code-bases use that :P
 
   checkLine: (line, lineNum) =>
     lineLength = @inferLine(line)

@@ -1,5 +1,5 @@
+BPromise = require 'bluebird'
 _ = require 'lodash'
-W = require 'when'
 fs = require 'graceful-fs'
 
 requireTree = require 'require-tree'
@@ -28,7 +28,7 @@ check = (files) ->
         )
       )
 
-  W.all(promises).done((res) ->
+  BPromise.all(promises).done((res) ->
     files = _.uniq _.map(res, 'file')
     for file in files
       matches = _.filter res, file: file
@@ -53,7 +53,7 @@ check = (files) ->
 
 fix = (files) ->
   results = []
-  promise = W.resolve()
+  promise = BPromise.resolve()
   for ruleName in Object.keys(Rules)
     Rule = Rules[ruleName]
     for filePath in files
@@ -109,7 +109,7 @@ infer = (files) ->
         )
       )
 
-  W.all(promises).done((res) ->
+  BPromise.all(promises).done((res) ->
     rules = {}
     _.remove(res, (e) -> not e.res?) # remove null results
     filteredResults = []

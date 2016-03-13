@@ -1,5 +1,5 @@
+BPromise = require 'bluebird'
 File = require 'fobject'
-W = require 'when'
 
 EditorConfigError = require './editorconfigerror'
 editorconfig = require './editorconfig'
@@ -40,11 +40,11 @@ class Rule
   ###
   fix: =>
     if not @setting?
-      W.reject(new EditorConfigError(
+      BPromise.reject(new EditorConfigError(
         "cannot fix #{@propertyName} (no setting defined)"
       ))
     else
-      W()
+      BPromise.resolve()
 
   ###*
    * Ensure that the file obeys the editorconfig setting. Throw an error if it
@@ -53,7 +53,7 @@ class Rule
   ###
   check: =>
     if not @setting?
-      W.resolve(null) # the setting isn't defined, so we can't check it
+      BPromise.resolve(null) # the setting isn't defined, so we can't check it
     else
       @infer().then((detectedSetting) =>
         if detectedSetting? and detectedSetting isnt @setting

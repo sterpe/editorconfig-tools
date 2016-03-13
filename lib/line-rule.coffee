@@ -1,4 +1,4 @@
-W = require 'when'
+BPromise = require 'bluebird'
 
 Rule = require './rule'
 EditorConfigError = require './editorconfigerror'
@@ -34,7 +34,7 @@ class LineRule extends Rule
 
   check: =>
     if not @setting?
-      W.resolve(null) # the setting isn't defined, so we can't check it
+      BPromise.resolve(null) # the setting isn't defined, so we can't check it
     else
       @fileAsLines().then((lines) =>
         for line, lineNum in lines

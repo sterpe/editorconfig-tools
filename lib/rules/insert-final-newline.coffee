@@ -1,5 +1,4 @@
 Rule = require '../rule'
-W = require 'when'
 
 class InsertFinalNewline extends Rule
   propertyName: 'insert_final_newline'
@@ -15,7 +14,7 @@ class InsertFinalNewline extends Rule
       @file.read(encoding:'utf8')
     ).then((data) =>
       # don't add a newline to empty files
-      if data is '' then return W.resolve()
+      if data is '' then return
 
       @file.write(data.replace(@_finalNewline, (match) =>
         if @setting is false
